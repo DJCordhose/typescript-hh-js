@@ -1,0 +1,244 @@
+<!--http://localhost:63342/JavaScript%20Training/#/-->
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+
+		<title>TypeScript</title>
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<link rel="stylesheet" href="reveal.js/css/reveal.min.css">
+        <link rel="stylesheet" href="reveal.js/css/theme/sky.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="reveal.js/lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="reveal.js/css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+        <script src="reveal.js/lib/js/html5shiv.js"></script>
+        <![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+                <section>
+					<h2>JavaScript in großen Projekten mit TypeScript</h2>
+                    <p>
+                        <a href="index.html?print-pdf" target="_blank">Druck-Version</a>
+                    </p>
+				</section>
+
+                <section>
+                    <h3>Ablauf</h3>
+                    <ul>
+                        <li class="fragment">Teil 1: Einführung (diese Folien)
+                        <li class="fragment">Teil 2: <a target="_blank" href="http://www.typescriptlang.org/Playground/">Play auf typescriptlang.org</a>
+                        <li class="fragment">Teil 3: IDE-Support (WebStorm, evtl. Visual Studio)
+
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Konzepte TypeScript</h3>
+                    <ul>
+                        <li class="fragment">Erweiterung von ECMAScript 5
+                        <li class="fragment">Von Microsoft, Anders Hjelsberg
+                        <li class="fragment">Einführung einer Compiler-Stufe
+                        <li class="fragment">Compiler selbst in TypeScript geschrieben
+                        <li class="fragment">Compiler erzeugt Mappig-File zum nativen Debuggen im Browser
+                        <li class="fragment">Fügt JavaScript die Dinge hinzu, die für große Projekte fehlen
+                        <li class="fragment">Erweiterung kompatibel mit ECMAScript 6, soweit möglich
+                    </ul>
+                </section>
+                <section>
+                    <h3>Neue Sprach-Konzepte</h3>
+                    <ul>
+                        <li class="fragment">Statische Typen
+                        <li class="fragment">Klassen
+                        <li class="fragment">Vererbung
+                        <li class="fragment">Module
+                        <li class="fragment">Externe Deklarationen
+                    </ul>
+                </section>
+                <section>
+                        <h4>Deklarierte, Statische Typen</h4>
+                        <pre><code class="javascript" contenteditable>var name: string = "Olli";
+
+function doIt(p1: number, p2: bool, p3: string): string {
+    if (p2) {
+        return p3;
+    } else {
+        return "" + p1;
+    }
+}
+</code></pre>
+
+                    </section>
+                <section>
+                    <h4>Klassen</h4>
+                        <pre><code class="java" contenteditable>class Person {
+    name: string; // public is the default visibility
+    private age: number; // either public or private
+    constructor(name: string, age: number) {
+        this.name = name;
+        this.age = age;
+    }
+    toString(): string {
+        return "Name: " + this.name;
+    }
+}
+var olli: Person = new Person("Olli", 42);
+console.log(olli.name); // => "Olli"
+// olli.age; => Error: The property 'age' does not exist on value of type 'Person'</code></pre>
+
+                </section>
+                <section>
+                    <h4>Vererbung</h4>
+                        <pre><code class="java" contenteditable>class Customer extends Person {
+    private id: number;
+    constructor(name: string, age: number, id: number) {
+        super(name, age);
+        this.id = id;
+    }
+    toString(): string {
+        return super.toString() + ", id: " + this.id;
+    }
+}
+
+var c1: Customer = new Customer("Oma", 88, 47);
+console.log(c1.toString());  // => "Name: Oma, id: 47"</code></pre>
+
+                </section>
+                <section>
+                    <h4>Statische Felder</h4>
+                        <pre><code class="java" contenteditable>class Customer extends Person {
+    private static sequence: number = 1;
+    public static nextNumber(): number {
+        return Customer.sequence++;
+    }
+    private id: number;
+    constructor(name: string, age: number) {
+        super(name, age);
+        this.id = Customer.nextNumber();
+    }
+    toString(): string {
+        return super.toString() + ", id: " + this.id;
+    }
+}
+var c1: Customer = new Customer("Oma", 88);
+console.log(c1.toString());</code></pre>
+                </section>
+
+                <section>
+                    <h4>Module</h4>
+                        <pre><code class="java" contenteditable>module CustomerModule {
+    class Person {
+        // ...
+    }
+
+    export class Customer extends Person {
+        // ...
+    }
+}
+
+// new CustomerModule.Person(...); // => undefined
+new CustomerModule.Customer(...); // => cool</code></pre>
+                </section>
+                <section>
+                    <h3>Externe Deklaration</h3>
+                    <ul>
+                        <li class="fragment">Werden in TypeScript <code>ambient</code> genannt
+                        <li class="fragment">Fügen bereits existierenden, puren JavaScript-Bibliotheken externe Deklarationen hinzu
+                        <li class="fragment">Erlauben Tooling und Type-Checking auf reinem, bestehenden JavaScript
+                        <li class="fragment">Compilieren zu nichts
+                        <li class="fragment">Für Basis- und DOM-Bibliothek liefert TypeScript bereits komplette Deklarationen (<code>lib.d.ts</code>)
+                        <li class="fragment">Projekte für viele andere Bibliotheken in der Mache
+                    </ul>
+                </section>
+                <section>
+                    <h4>Auszug aus <code>lib.d.ts</code> #1</h4>
+                        <pre><code class="java" contenteditable>declare function parseFloat(string: string): number;
+
+interface Function {
+    apply(thisArg: any, ...argArray: any[]): any;
+    call(thisArg: any, ...argArray: any[]): any;
+    bind(thisArg: any, ...argArray: any[]): Function;
+    prototype: any;
+    length: number;
+}</code></pre>
+                </section>
+                <section>
+                    <h4>Auszug aus <code>lib.d.ts</code> #2</h4>
+                        <pre><code class="java" contenteditable>interface Node extends EventTarget {
+    nodeType: number;
+    previousSibling: Node;
+    localName: string;
+    parentNode: Node;
+    nextSibling: Node;
+    // ...
+}
+declare var Node: {
+    ATTRIBUTE_NODE: number;
+    TEXT_NODE: number;
+    ELEMENT_NODE: number;
+    COMMENT_NODE: number;
+    // ...
+}
+</code></pre>
+                </section>
+                <section>
+                    <h3>Tools</h3>
+                    <ul>
+                        <li class="fragment"><code>tsc</code>: Kommandozeilen-Kompiler
+                        <li class="fragment">WebStorm
+                        <li class="fragment">Visual Studio (Express for Web)
+                        <li class="fragment">Styles für reine Text-Editoren
+                    </ul>
+                </section>
+
+            </div>
+
+		</div>
+
+		<script src="reveal.js/lib/js/head.min.js"></script>
+		<script src="reveal.js/js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/../reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/none
+
+				// Optional libraries used to extend on ../reveal.js
+				dependencies: [
+					{ src: 'reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'reveal.js/plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+					// { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
