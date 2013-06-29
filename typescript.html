@@ -32,45 +32,36 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
                 <section>
-					<h2>JavaScript in großen Projekten mit TypeScript</h2>
-                    <p>Diese Folien auf GitHub: <a target="_blank" href="https://github.com/DJCordhose/typescript-hh-js">https://github.com/DJCordhose/typescript-hh-js</a></p>
+					<h2>Large Scale JavaScript with TypeScript</h2>
+                    <p>These Slides on GitHub: <a target="_blank" href="https://github.com/DJCordhose/typescript-hh-js">https://github.com/DJCordhose/typescript-hh-js</a></p>
+                    <p>Code Samples on GitHub: <a target="_blank" href="https://github.com/DJCordhose/typescript-sandbox">https://github.com/DJCordhose/typescript-sandbox</a></p>
                     <footer>&copy; Oliver Zeigermann 2013, <a href="http://zeigermann.eu">http://zeigermann.eu</a></footer>
 				</section>
 
                 <section>
-                    <h3>Ablauf</h3>
+                    <h3>Concepts</h3>
                     <ul>
-                        <li class="fragment">Teil 1: Einführung (diese Folien)
-                        <li class="fragment">Teil 2: <a target="_blank" href="http://www.typescriptlang.org/Playground/">Play auf typescriptlang.org</a>
-                        <li class="fragment">Teil 3: Live-Demo IDE-Support (WebStorm, evtl. Visual Studio)
-
-                    </ul>
-                </section>
-
-                <section>
-                    <h3>Konzepte TypeScript</h3>
-                    <ul>
-                        <li class="fragment">Erweiterung von ECMAScript 5
-                        <li class="fragment">Von Microsoft, Anders Hjelsberg
-                        <li class="fragment">Einführung einer Compiler-Stufe
-                        <li class="fragment">Compiler selbst in TypeScript geschrieben
-                        <li class="fragment">Compiler erzeugt Mappig-File zum nativen Debuggen im Browser
-                        <li class="fragment">Fügt JavaScript die Dinge hinzu, die für große Projekte fehlen
-                        <li class="fragment">Erweiterung kompatibel mit ECMAScript 6, soweit möglich
+                        <li class="fragment">Superset of ECMAScript 5
+                        <li class="fragment">Adds administrative concepts to JavaScript to allow for large scale development
+                        <li class="fragment">Compatible with ECMAScript 6 where applicable and possible
+                        <li class="fragment">By Microsoft, Anders Hjelsberg
+                        <li class="fragment">Introduces a compiler step
+                        <li class="fragment">Compiler written in TypeScript itself
+                        <li class="fragment">Compiler creates mapping file for native debugging in Browsers
                     </ul>
                 </section>
                 <section>
-                    <h3>Neue Sprach-Konzepte</h3>
+                    <h3>New Concepts of the Language</h3>
                     <ul>
-                        <li class="fragment">Statische Typen
-                        <li class="fragment">Klassen
-                        <li class="fragment">Vererbung
-                        <li class="fragment">Module
-                        <li class="fragment">Externe Deklarationen
+                        <li class="fragment">Declared Types
+                        <li class="fragment">Classes
+                        <li class="fragment">Inheritance
+                        <li class="fragment">Modules
+                        <li class="fragment">Interfaces and external declarations
                     </ul>
                 </section>
                 <section>
-                        <h4>Deklarierte, Statische Typen</h4>
+                        <h4>Declared, Static Typing</h4>
                         <pre><code class="javascript" contenteditable>var name: string = "Olli";
 
 function doIt(p1: number, p2: bool, p3: string): string {
@@ -84,7 +75,7 @@ function doIt(p1: number, p2: bool, p3: string): string {
 
                     </section>
                 <section>
-                    <h4>Klassen</h4>
+                    <h4>Classes</h4>
                         <pre><code class="java" contenteditable>class Person {
     name: string; // public is the default visibility
     private age: number; // either public or private
@@ -102,7 +93,7 @@ console.log(olli.name); // => "Olli"
 
                 </section>
                 <section>
-                    <h4>Vererbung</h4>
+                    <h4>Inheritance</h4>
                         <pre><code class="java" contenteditable>class Customer extends Person {
     private id: number;
     constructor(name: string, age: number, id: number) {
@@ -119,7 +110,7 @@ console.log(c1.toString());  // => "Name: Oma, id: 47"</code></pre>
 
                 </section>
                 <section>
-                    <h4>Statische Felder</h4>
+                    <h4>Static Fields</h4>
                         <pre><code class="java" contenteditable>class Customer extends Person {
     private static sequence: number = 1;
     public static nextNumber(): number {
@@ -139,7 +130,7 @@ console.log(c1.toString());</code></pre>
                 </section>
 
                 <section>
-                    <h4>Module</h4>
+                    <h4>Modules</h4>
                         <pre><code class="java" contenteditable>module CustomerModule {
     class Person {
         // ...
@@ -154,18 +145,19 @@ console.log(c1.toString());</code></pre>
 new CustomerModule.Customer(...); // => cool</code></pre>
                 </section>
                 <section>
-                    <h3>Externe Deklaration</h3>
+                    <h3>External Declarations</h3>
                     <ul>
-                        <li class="fragment">Werden in TypeScript <code>ambient</code> genannt
-                        <li class="fragment">Fügen bereits existierenden, puren JavaScript-Bibliotheken externe Deklarationen hinzu
-                        <li class="fragment">Erlauben Tooling und Type-Checking auf reinem, bestehenden JavaScript
-                        <li class="fragment">Compilieren zu nichts
-                        <li class="fragment">Für Basis- und DOM-Bibliothek liefert TypeScript bereits komplette Deklarationen (<code>lib.d.ts</code>)
-                        <li class="fragment">Projekte für viele andere Bibliotheken in der Mache
+                        <li class="fragment">Called <code>ambient</code> in TypeScript
+                        <li class="fragment">Add declared types to JavaScript code in external files
+                        <li class="fragment">Useful for existing JavaScript libraries
+                        <li class="fragment">Add tooling and type checking to pure JavaScript
+                        <li class="fragment">Disappear when compiled
+                        <li class="fragment">TypeScript compiler comes with external declarations for core and DOM libraries (<code>lib.d.ts</code>)
+                        <li class="fragment">Work in progress for a lot of other libraries
                     </ul>
                 </section>
                 <section>
-                    <h4>Auszug aus <code>lib.d.ts</code> #1</h4>
+                    <h4>Excerpt from <code>lib.d.ts</code> #1</h4>
                         <pre><code class="java" contenteditable>declare function parseFloat(string: string): number;
 
 interface Function {
@@ -177,7 +169,7 @@ interface Function {
 }</code></pre>
                 </section>
                 <section>
-                    <h4>Auszug aus <code>lib.d.ts</code> #2</h4>
+                    <h4>Excerpt from <code>lib.d.ts</code> #2</h4>
                         <pre><code class="java" contenteditable>interface Node extends EventTarget {
     nodeType: number;
     previousSibling: Node;
@@ -198,17 +190,19 @@ declare var Node: {
                 <section>
                     <h3>Tools</h3>
                     <ul>
-                        <li class="fragment"><code>tsc</code>: Kommandozeilen-Kompiler
+                        <li class="fragment"><code>tsc</code>: Command Line Tool for Compiler
                         <li class="fragment">WebStorm
                         <li class="fragment">Visual Studio (Express for Web)
-                        <li class="fragment">Styles für reine Text-Editoren
+                        <li class="fragment">Styles for other Text Editors
                     </ul>
                 </section>
                 <section>
-                    <h3>Ausblick</h3>
+                    <h3>Resources</h3>
                     <ul>
-                        <li class="fragment">Generics: <a target="_blank" href="http://journal.stuffwithstuff.com/2013/04/23/playing-with-generics-in-typescript-0.9.0/">http://journal.stuffwithstuff.com/2013/04/23/playing-with-generics-in-typescript-0.9.0/</a>
-                        <li class="fragment">Mit AngularJS: <a target="_blank" href="http://notebookheavy.com/2013/05/22/angularjs-and-typescript/">http://notebookheavy.com/2013/05/22/angularjs-and-typescript/</a>
+                        <li class="fragment">TypeScript with AngularJS: <a target="_blank" href="http://notebookheavy.com/2013/05/22/angularjs-and-typescript/">http://notebookheavy.com/2013/05/22/angularjs-and-typescript/</a>
+                        <li class="fragment">Version 0.9 with Generics: <a target="_blank" href="http://blogs.msdn.com/b/typescript/archive/2013/06/18/announcing-typescript-0-9.aspx/">http://blogs.msdn.com/b/typescript/archive/2013/06/18/announcing-typescript-0-9.aspx</a>
+                        <li class="fragment">Heise on Generics: <a target="_blank" href="http://www.heise.de/newsticker/meldung/TypeScript-unterstuetzt-Generics-1892927.html">http://www.heise.de/newsticker/meldung/TypeScript-unterstuetzt-Generics-1892927.html</a>
+                        <li class="fragment">Experience with Generics: <a target="_blank" href="http://journal.stuffwithstuff.com/2013/04/23/playing-with-generics-in-typescript-0.9.0/">http://journal.stuffwithstuff.com/2013/04/23/playing-with-generics-in-typescript-0.9.0/</a>
                     </ul>
                 </section>
 
