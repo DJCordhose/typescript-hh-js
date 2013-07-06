@@ -15,7 +15,9 @@
 		<!-- For syntax highlighting -->
 		<link rel="stylesheet" href="reveal.js/lib/css/zenburn.css">
 
-		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+        <link rel="stylesheet" href="style.css">
+
+        <!-- If the query includes 'print-pdf', use the PDF print sheet -->
 		<script>
 			document.write( '<link rel="stylesheet" href="reveal.js/css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
 		</script>
@@ -48,8 +50,7 @@
                 <section>
                     <h3>New Concepts of the Language</h3>
                     <ul>
-                        <li class="fragment">Classes
-                        <li class="fragment">Inheritance
+                        <li class="fragment">Classes and Inheritance
                         <li class="fragment">Modules
                         <li class="fragment">Declared Types
                         <li class="fragment">Interfaces and external declarations
@@ -74,27 +75,32 @@ function doIt(p1: number, p2: bool, p3: string): string {
                         <pre><code class="java" contenteditable>class Person {
     name: string; // public is the default visibility
     private age: number; // either public or private
+
     constructor(name: string, age: number) {
         this.name = name;
         this.age = age;
     }
+
     toString(): string {
         return "Name: " + this.name;
     }
 }
+
 var olli: Person = new Person("Olli", 42);
 console.log(olli.name); // => "Olli"
-// olli.age; => Error: The property 'age' does not exist on value of type 'Person'</code></pre>
+olli.age; // => Error: The property 'age' does not exist ...</code></pre>
 
                 </section>
                 <section>
                     <h4>Inheritance</h4>
                         <pre><code class="java" contenteditable>class Customer extends Person {
     private id: number;
+
     constructor(name: string, age: number, id: number) {
         super(name, age);
         this.id = id;
     }
+
     toString(): string {
         return super.toString() + ", id: " + this.id;
     }
@@ -103,25 +109,6 @@ console.log(olli.name); // => "Olli"
 var c1: Customer = new Customer("Oma", 88, 47);
 console.log(c1.toString());  // => "Name: Oma, id: 47"</code></pre>
 
-                </section>
-                <section>
-                    <h4>Static Fields</h4>
-                        <pre><code class="java" contenteditable>class Customer extends Person {
-    private static sequence: number = 1;
-    public static nextNumber(): number {
-        return Customer.sequence++;
-    }
-    private id: number;
-    constructor(name: string, age: number) {
-        super(name, age);
-        this.id = Customer.nextNumber();
-    }
-    toString(): string {
-        return super.toString() + ", id: " + this.id;
-    }
-}
-var c1: Customer = new Customer("Oma", 88);
-console.log(c1.toString());</code></pre>
                 </section>
 
                 <section>
@@ -142,11 +129,8 @@ new CustomerModule.Customer(...); // => cool</code></pre>
                 <section>
                     <h3>External Declarations</h3>
                     <ul>
-                        <li class="fragment">Called <code>ambient</code> in TypeScript
-                        <li class="fragment">Add declared types to JavaScript code in external files
-                        <li class="fragment">Useful for existing JavaScript libraries
-                        <li class="fragment">Add tooling and type checking to pure JavaScript
-                        <li class="fragment">Disappear when compiled
+                        <li class="fragment">Adds tooling and type checking to existing JavaScript libraries
+                        <li class="fragment">Declarations disappear when compiled
                         <li class="fragment">TypeScript compiler comes with external declarations for core and DOM libraries (<code>lib.d.ts</code>)
                         <li class="fragment">Work in progress for a lot of other libraries
                     </ul>
@@ -173,13 +157,6 @@ interface Function {
     nextSibling: Node;
     // ...
 }
-declare var Node: {
-    ATTRIBUTE_NODE: number;
-    TEXT_NODE: number;
-    ELEMENT_NODE: number;
-    COMMENT_NODE: number;
-    // ...
-}
 </code></pre>
                 </section>
                 <section>
@@ -188,7 +165,7 @@ declare var Node: {
                         <li class="fragment"><code>tsc</code>: Command Line Tool for Compiler
                         <li class="fragment">WebStorm
                         <li class="fragment">Visual Studio (Express for Web)
-                        <li class="fragment">Styles for other Text Editors
+                        <li class="fragment">Syntax highlighting for other text editors (Sublime Text, Emacs, Vim)
                     </ul>
                 </section>
                 <section>
@@ -197,6 +174,7 @@ declare var Node: {
                     <p>Code Samples on GitHub: <a target="_blank" href="https://github.com/DJCordhose/typescript-sandbox">https://github.com/DJCordhose/typescript-sandbox</a></p>
                     <p>External Links</p>
                     <ul>
+                        <li class="fragment"><a target="_blank" href="https://github.com/borisyankov/DefinitelyTyped">Collection of external declaration files</a>
                         <li class="fragment"><a target="_blank" href="http://channel9.msdn.com/Events/Build/2013/3-314?utm_source=javascriptweekly&utm_medium=email">Great introductory talk by Anders Hejlsberg</a>
                         <li class="fragment"><a target="_blank" href="http://notebookheavy.com/2013/05/22/angularjs-and-typescript/">TypeScript with AngularJS</a>
                         <li class="fragment"><a target="_blank" href="http://blogs.msdn.com/b/typescript/archive/2013/06/18/announcing-typescript-0-9.aspx/">Version 0.9 with Generics</a>
