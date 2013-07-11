@@ -40,7 +40,7 @@
 				</section>
 
                 <section>
-                    <h3>Concepts</h3>
+                    <h3>TypeScript</h3>
                     <ul>
                         <li class="fragment">Valid JavaScript is also valid TypeScript
                         <li class="fragment">Almost ECMAScript 6 with declared types
@@ -50,17 +50,18 @@
                 <section>
                     <h3>New Concepts of the Language</h3>
                     <ul>
+                        <li class="fragment">Declared Types
                         <li class="fragment">Classes and Inheritance
                         <li class="fragment">Modules
-                        <li class="fragment">Declared Types
-                        <li class="fragment">Interfaces and external declarations
+                        <li class="fragment">Interfaces
+                        <li class="fragment">External declarations
                     </ul>
                 </section>
                 <section>
                         <h4>Declared, Static Typing</h4>
                         <pre><code class="javascript" contenteditable>var name: string = "Olli";
 
-function doIt(p1: number, p2: bool, p3: string): string {
+function doIt(p1: number, p2: boolean, p3: string): string {
     if (p2) {
         return p3;
     } else {
@@ -127,6 +128,15 @@ console.log(c1.toString());  // => "Name: Oma, id: 47"</code></pre>
 new CustomerModule.Customer(...); // => cool</code></pre>
                 </section>
                 <section>
+                    <h4>Structural Typing with Interfaces</h4>
+                        <pre><code class="java" contenteditable>interface HasName {
+    name: string;
+}
+
+var olli: HasName = {name: 'Olli'};</code></pre>
+                </section>
+
+                <section>
                     <h3>External Declarations</h3>
                     <ul>
                         <li class="fragment">Adds tooling and type checking to existing JavaScript libraries
@@ -167,6 +177,21 @@ interface Function {
                         <li class="fragment">Visual Studio (Express for Web)
                         <li class="fragment">Syntax highlighting for other text editors (Sublime Text, Emacs, Vim)
                     </ul>
+                </section>
+                <section>
+                    <h3>And there is more...</h3>
+                    <ul>
+                        <li class="fragment">Mapping files
+                        <li class="fragment">External module declarations for AMD / CommonJS
+                        <li class="fragment">Enums
+                        <li class="fragment">Generics
+                        <li class="fragment">Casts
+                        <li class="fragment">All the ES 6 goodness
+                    </ul>
+                </section>
+                <section>
+                    <h1>Questions / Discussion</h1>
+                    <footer>Oliver Zeigermann, <a href="http://zeigermann.eu">http://zeigermann.eu</a></footer>
                 </section>
                 <section>
                     <h3>Resources</h3>
