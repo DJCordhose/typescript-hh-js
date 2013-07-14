@@ -1,4 +1,4 @@
 typescript-hh-js
 ================
 
-TypeScript-Vortrag bei HH.js
+TypeScript Talk at HH.js
