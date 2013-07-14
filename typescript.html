@@ -113,6 +113,26 @@ console.log(c1.toString());  // => "Name: Oma, id: 47"</code></pre>
                 </section>
 
                 <section>
+                    <h4>Static Properties</h4>
+                        <pre><code class="java" contenteditable>class Customer extends Person {
+    private static sequence: number = 1;
+    public static nextNumber(): number {
+        return Customer.sequence++;
+    }
+
+    private id: number;
+    constructor(name: string, age: number) {
+        super(name, age);
+        this.id = Customer.nextNumber();
+    }
+    toString(): string {
+        return super.toString() + ", id: " + this.id;
+    }
+}
+var c1: Customer = new Customer("Oma", 88);
+console.log(c1.toString());</code></pre>
+                </section>
+                <section>
                     <h4>Modules</h4>
                         <pre><code class="java" contenteditable>module CustomerModule {
     class Person {
@@ -133,7 +153,14 @@ new CustomerModule.Customer(...); // => cool</code></pre>
     name: string;
 }
 
-var olli: HasName = {name: 'Olli'};</code></pre>
+var olli: HasName = {name: 'Olli'};
+
+olli.name; // good
+olli.age; // not good, as not declared
+
+olli = {name: 'Olli', age: 100};
+
+olli.age; // still not good, as not declared</code></pre>
                 </section>
 
                 <section>
@@ -173,7 +200,7 @@ interface Function {
                     <h3>Tools</h3>
                     <ul>
                         <li class="fragment"><code>tsc</code>: Command Line Tool for Compiler
-                        <li class="fragment">WebStorm
+                        <li class="fragment">WebStorm / Intellij IDEA
                         <li class="fragment">Visual Studio (Express for Web)
                         <li class="fragment">Syntax highlighting for other text editors (Sublime Text, Emacs, Vim)
                     </ul>
@@ -208,6 +235,22 @@ interface Function {
                         <li><a target="_blank" href="http://blogs.msdn.com/b/typescript/archive/2013/06/18/announcing-typescript-0-9.aspx/">Version 0.9 with Generics</a>
                         <li><a target="_blank" href="http://www.heise.de/newsticker/meldung/TypeScript-unterstuetzt-Generics-1892927.html">heise.de on TypeScript</a>
                         <li><a target="_blank" href="http://journal.stuffwithstuff.com/2013/04/23/playing-with-generics-in-typescript-0.9.0/">Experience report Generics</a>
+                    </ul>
+                </section>
+                <section>
+                    <h3>Conclusion</h3>
+                    <ul>
+                        <li class="fragment">TypeScript has the same semantics as JavaScript
+                        <li class="fragment">Declared types bring you to the next level of (IDE) tooling
+                            <ul>
+                                <li class="fragment">Analyzing Code
+                                <li class="fragment">Refactoring
+                                <li class="fragment">Code completion
+                            </ul>
+                        </li>
+                        <li class="fragment">Syntactic sugar for classes, inheritance, and modules is nice
+                        <li class="fragment">All added features aligned to ECMAScript 6
+                        <li class="fragment">Interfaces and external declarations add the benefits of TypeScript to pure JavaScript libraries
                     </ul>
                 </section>
                 <section>
