@@ -1,0 +1,296 @@
+<!--http://localhost:63342/JavaScript%20Training/#/-->
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+
+		<title>TypeScript</title>
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<link rel="stylesheet" href="reveal.js/css/reveal.min.css">
+        <link rel="stylesheet" href="reveal.js/css/theme/sky.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="reveal.js/lib/css/zenburn.css">
+
+        <link rel="stylesheet" href="style.css">
+
+        <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="reveal.js/css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+        <script src="reveal.js/lib/js/html5shiv.js"></script>
+        <![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+                <section>
+					<h2>Large Scale JavaScript with TypeScript</h2>
+                    <h3>HH.js - July 2013</h3>
+                    <footer>Oliver Zeigermann, <a href="http://zeigermann.eu">http://zeigermann.eu</a></footer>
+				</section>
+
+                <section>
+                    <h3>TypeScript</h3>
+                    <ul>
+                        <li class="fragment">Valid JavaScript is also valid TypeScript
+                        <li class="fragment">Almost ECMAScript 6 with declared types
+                        <li class="fragment">Introduces a compiler step
+                    </ul>
+                </section>
+                <section>
+                    <h3>New Concepts of the Language</h3>
+                    <ul>
+                        <li class="fragment">Declared Types
+                        <li class="fragment">Classes and Inheritance
+                        <li class="fragment">Modules
+                        <li class="fragment">Interfaces
+                        <li class="fragment">External declarations
+                    </ul>
+                </section>
+                <section>
+                        <h4>Declared, Static Typing</h4>
+                        <pre><code class="javascript" contenteditable>var name: string = "Olli";
+
+function doIt(p1: number, p2: boolean, p3: string): string {
+    if (p2) {
+        return p3;
+    } else {
+        return "" + p1;
+    }
+}
+</code></pre>
+
+                    </section>
+                <section>
+                    <h4>Classes</h4>
+                        <pre><code class="java" contenteditable>class Person {
+    name: string; // public is the default visibility
+    private age: number; // either public or private
+
+    constructor(name: string, age: number) {
+        this.name = name;
+        this.age = age;
+    }
+
+    toString(): string {
+        return "Name: " + this.name;
+    }
+}
+
+var olli: Person = new Person("Olli", 42);
+console.log(olli.name); // => "Olli"
+olli.age; // => Error: Person.age' is inaccessible</code></pre>
+
+                </section>
+                <section>
+                    <h4>Inheritance</h4>
+                        <pre><code class="java" contenteditable>class Customer extends Person {
+    private id: number;
+
+    constructor(name: string, age: number, id: number) {
+        super(name, age);
+        this.id = id;
+    }
+
+    toString(): string {
+        return super.toString() + ", id: " + this.id;
+    }
+}
+
+var c1: Customer = new Customer("Oma", 88, 47);
+console.log(c1.toString());  // => "Name: Oma, id: 47"</code></pre>
+
+                </section>
+
+                <section>
+                    <h4>Static Properties</h4>
+                        <pre><code class="java" contenteditable>class Customer extends Person {
+    private static sequence: number = 1;
+    public static nextNumber(): number {
+        return Customer.sequence++;
+    }
+
+    private id: number;
+    constructor(name: string, age: number) {
+        super(name, age);
+        this.id = Customer.nextNumber();
+    }
+    toString(): string {
+        return super.toString() + ", id: " + this.id;
+    }
+}
+var c1: Customer = new Customer("Oma", 88);
+console.log(c1.toString());</code></pre>
+                </section>
+                <section>
+                    <h4>Modules</h4>
+                        <pre><code class="java" contenteditable>module CustomerModule {
+    class Person {
+        // ...
+    }
+
+    export class Customer extends Person {
+        // ...
+    }
+}
+
+// new CustomerModule.Person(...); // => undefined
+new CustomerModule.Customer(...); // => cool</code></pre>
+                </section>
+                <section>
+                    <h4>Structural Typing with Interfaces</h4>
+                        <pre><code class="java" contenteditable>interface HasName {
+    name: string;
+}
+
+var olli: HasName = {name: 'Olli'};
+
+olli.name; // good
+olli.age; // not good, as not declared
+
+olli = {name: 'Olli', age: 100};
+
+olli.age; // still not good, as not declared</code></pre>
+                </section>
+
+                <section>
+                    <h3>External Declarations</h3>
+                    <ul>
+                        <li class="fragment">Adds tooling and type checking to existing JavaScript libraries
+                        <li class="fragment">Declarations disappear when compiled
+                        <li class="fragment">TypeScript compiler comes with external declarations for core and DOM libraries (<code>lib.d.ts</code>)
+                        <li class="fragment">Work in progress for a lot of other libraries
+                    </ul>
+                </section>
+                <section>
+                    <h4>Excerpt from <code>lib.d.ts</code> #1</h4>
+                        <pre><code class="java" contenteditable>declare function parseFloat(string: string): number;
+
+interface Function {
+    apply(thisArg: any, ...argArray: any[]): any;
+    call(thisArg: any, ...argArray: any[]): any;
+    bind(thisArg: any, ...argArray: any[]): Function;
+    prototype: any;
+    length: number;
+}</code></pre>
+                </section>
+                <section>
+                    <h4>Excerpt from <code>lib.d.ts</code> #2</h4>
+                        <pre><code class="java" contenteditable>interface Node extends EventTarget {
+    nodeType: number;
+    previousSibling: Node;
+    localName: string;
+    parentNode: Node;
+    nextSibling: Node;
+    // ...
+}
+</code></pre>
+                </section>
+                <section>
+                    <h3>Tools</h3>
+                    <ul>
+                        <li class="fragment"><code>tsc</code>: Command Line Tool for Compiler
+                        <li class="fragment">WebStorm / Intellij IDEA
+                        <li class="fragment">Visual Studio (Express for Web)
+                        <li class="fragment">Syntax highlighting for other text editors (Sublime Text, Emacs, Vim)
+                    </ul>
+                </section>
+                <section>
+                    <h3>And there is more...</h3>
+                    <ul>
+                        <li class="fragment">Mapping files
+                        <li class="fragment">External module declarations for AMD / CommonJS
+                        <li class="fragment">Enums
+                        <li class="fragment">Generics
+                        <li class="fragment">Casts
+                        <li class="fragment">All the ES 6 goodness
+                    </ul>
+                </section>
+                <section>
+                    <h3>Resources</h3>
+                    <p>These Slides on GitHub: <a target="_blank" href="https://github.com/DJCordhose/typescript-hh-js">https://github.com/DJCordhose/typescript-hh-js</a></p>
+                    <p>Code Samples on GitHub: <a target="_blank" href="https://github.com/DJCordhose/typescript-sandbox">https://github.com/DJCordhose/typescript-sandbox</a></p>
+                </section>
+                <section>
+                    <h3>External Links</h3>
+                    <ul>
+                        <li><a target="_blank" href="https://github.com/borisyankov/DefinitelyTyped">Collection of external declaration files</a>
+                        <li><a target="_blank" href="http://blogs.msdn.com/b/interoperability/archive/2012/10/01/sublime-text-vi-emacs-typescript-enabled.aspx">Syntax files for other editors</a>
+                        <li><a target="_blank" href="http://channel9.msdn.com/Events/Build/2013/3-314?utm_source=javascriptweekly&utm_medium=email">
+                            Great introductory talk by Anders Hejlsberg</a>
+                        <li><a target="_blank" href="http://notebookheavy.com/2013/05/22/angularjs-and-typescript/">TypeScript with AngularJS</a>
+                        <li><a target="_blank" href="http://www.youtube.com/watch?v=WdtVn_8K17E">AngularJS + TypeScript : Controllers, Best Practice</a>
+                        <li><a target="_blank" href="https://npmjs.org/package/grunt-typescript">Grunt Plugin for TypeScript</a>
+
+                        <li><a target="_blank" href="http://blogs.msdn.com/b/typescript/archive/2013/06/18/announcing-typescript-0-9.aspx/">Version 0.9 with Generics</a>
+                        <li><a target="_blank" href="http://www.heise.de/newsticker/meldung/TypeScript-unterstuetzt-Generics-1892927.html">heise.de on TypeScript</a>
+                        <li><a target="_blank" href="http://journal.stuffwithstuff.com/2013/04/23/playing-with-generics-in-typescript-0.9.0/">Experience report Generics</a>
+                        <li><a target="_blank" href="http://basarat.github.io/TypeScriptDeepDive/">TypeScript deep dive</a>
+                    </ul>
+                </section>
+                <section>
+                    <h3>Conclusion</h3>
+                    <ul>
+                        <li class="fragment">TypeScript has the same semantics as JavaScript
+                        <li class="fragment">Declared types bring you to the next level of (IDE) tooling
+                            <ul>
+                                <li class="fragment">Analyzing Code
+                                <li class="fragment">Refactoring
+                                <li class="fragment">Code completion
+                            </ul>
+                        </li>
+                        <li class="fragment">Syntactic sugar for classes, inheritance, and modules is nice
+                        <li class="fragment">All added features aligned to ECMAScript 6
+                        <li class="fragment">Interfaces and external declarations add the benefits of TypeScript to pure JavaScript libraries
+                    </ul>
+                </section>
+                <section>
+                    <h1>Questions / Discussion</h1>
+                    <footer>Oliver Zeigermann, <a href="http://zeigermann.eu">http://zeigermann.eu</a></footer>
+                </section>
+            </div>
+
+		</div>
+
+		<script src="reveal.js/lib/js/head.min.js"></script>
+		<script src="reveal.js/js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/../reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/none
+
+				// Optional libraries used to extend on ../reveal.js
+				dependencies: [
+					{ src: 'reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'reveal.js/plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+					// { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
